@@ -1,23 +1,35 @@
-function updateStatus() {
-  const status = document.getElementById("orderStatus").value
-  console.log("Atualizando status para:", status)
-  alert("Status atualizado com sucesso!")
-  // Aqui você implementaria a lógica para salvar o novo status
-}
+document.addEventListener('DOMContentLoaded', function() {
+    function updateStatus() {
+        const newStatus = document.getElementById('orderStatus').value;
+        alert('Status do pedido alterado para: ' + newStatus);
+        console.log('Status do pedido alterado para: ' + newStatus);
+    }
 
-function sendInvoice() {
-  if (confirm("Deseja enviar a nota fiscal para o cliente?")) {
-    console.log("Enviando nota fiscal...")
-    alert("Nota fiscal enviada com sucesso!")
-    // Aqui você implementaria a lógica para enviar a nota fiscal por email
-  }
-}
+    function sendInvoice() {
+        alert('Nota fiscal enviada!');
+        console.log('Nota fiscal enviada.');
+    }
 
-document.querySelector('select[name="entregador"]')?.addEventListener("change", (e) => {
-  const deliveryInfo = document.getElementById("deliveryInfo")
-  if (e.target.value) {
-    deliveryInfo.style.display = "block"
-  } else {
-    deliveryInfo.style.display = "none"
-  }
-})
+    // Expõe as funções globalmente para serem chamadas pelo onclick no PHP
+    window.updateStatus = updateStatus;
+    window.sendInvoice = sendInvoice;
+
+    // Simulação para exibir a informação do entregador ao selecionar
+    const deliverySelect = document.querySelector('.chart-card:nth-child(3) select');
+    const deliveryInfo = document.getElementById('deliveryInfo');
+    
+    if (deliverySelect && deliveryInfo) {
+        deliverySelect.addEventListener('change', function() {
+            if (this.value) {
+                // Simula os dados do entregador selecionado
+                deliveryInfo.innerHTML = `
+                    <div><strong>Nome:</strong> ${this.options[this.selectedIndex].text.split(' - ')[0]}</div>
+                    <div><strong>Veículo:</strong> ${this.options[this.selectedIndex].text.split(' - ')[1]} - ABC-1234 (Simulado)</div>
+                `;
+                deliveryInfo.style.display = 'block';
+            } else {
+                deliveryInfo.style.display = 'none';
+            }
+        });
+    }
+});

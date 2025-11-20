@@ -1,54 +1,57 @@
+const adminModal = document.getElementById('adminModal');
+const promotionModal = document.getElementById('promotionModal');
+
 function openAdminModal() {
-  document.getElementById("adminModal").classList.add("active")
+    document.getElementById('adminForm').reset();
+    adminModal.classList.add('active');
 }
 
 function closeAdminModal() {
-  document.getElementById("adminModal").classList.remove("active")
+    adminModal.classList.remove('active');
 }
 
 function deleteAdmin(id) {
-  if (confirm("Tem certeza que deseja remover este administrador?")) {
-    console.log("Removendo admin:", id)
-    alert("Administrador removido com sucesso!")
-  }
+    if (confirm('Tem certeza que deseja remover este administrador?')) {
+        console.log('Remover administrador: ' + id);
+    }
 }
 
-function openPromotionModal() {
-  document.getElementById("promotionModal").classList.add("active")
+function openPromotionModal(isEdit = false) {
+    document.querySelector('#promotionModal .modal-header h2').textContent = isEdit ? 'Editar Promoção' : 'Nova Promoção';
+    document.getElementById('promotionForm').reset();
+    promotionModal.classList.add('active');
 }
 
 function closePromotionModal() {
-  document.getElementById("promotionModal").classList.remove("active")
+    promotionModal.classList.remove('active');
 }
 
 function editPromotion(id) {
-  openPromotionModal()
-  console.log("Editando promoção:", id)
+    console.log('Editar promoção: ' + id);
+    openPromotionModal(true);
 }
 
 function deletePromotion(id) {
-  if (confirm("Tem certeza que deseja excluir esta promoção?")) {
-    console.log("Excluindo promoção:", id)
-  }
+    if (confirm('Tem certeza que deseja excluir esta promoção?')) {
+        console.log('Excluir promoção: ' + id);
+    }
 }
 
-document.getElementById("adminForm")?.addEventListener("submit", (e) => {
-  e.preventDefault()
-  const email = e.target.admin_email.value
-  console.log("Criando novo admin:", email)
-  alert(`Administrador criado com sucesso!\nEmail: ${email}\nSenha: Doce2025@`)
-  closeAdminModal()
-})
+// Simulação de submissão de formulário
+document.getElementById('siteConfigForm')?.addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert('Configurações do Site salvas!');
+    console.log('Configurações do Site salvas.');
+});
 
-document.getElementById("siteConfigForm")?.addEventListener("submit", (e) => {
-  e.preventDefault()
-  console.log("Salvando configurações do site...")
-  alert("Configurações salvas com sucesso!")
-})
+document.getElementById('adminForm')?.addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert('Novo Administrador criado!');
+    closeAdminModal();
+});
 
-document.getElementById("promotionForm")?.addEventListener("submit", (e) => {
-  e.preventDefault()
-  console.log("Criando nova promoção...")
-  alert("Promoção criada com sucesso!")
-  closePromotionModal()
-})
+document.getElementById('promotionForm')?.addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert('Nova Promoção criada!');
+    closePromotionModal();
+});

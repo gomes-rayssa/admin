@@ -1,47 +1,42 @@
-function openProductModal() {
-  document.getElementById("productModal").classList.add("active")
-  document.getElementById("modalTitle").textContent = "Novo Produto"
-  document.getElementById("productForm").reset()
-  document.getElementById("imagePreview").innerHTML =
-    '<span style="color: var(--text-light);">Nenhuma imagem selecionada</span>'
+const productModal = document.getElementById('productModal');
+
+function openProductModal(isEdit = false) {
+    document.getElementById('modalTitle').textContent = isEdit ? 'Editar Produto' : 'Novo Produto';
+    document.getElementById('productForm').reset();
+    document.getElementById('imagePreview').innerHTML = '<span style="color: var(--text-light);">Nenhuma imagem selecionada</span>';
+    productModal.classList.add('active');
 }
 
 function closeProductModal() {
-  document.getElementById("productModal").classList.remove("active")
-}
-
-function editProduct(id) {
-  openProductModal()
-  document.getElementById("modalTitle").textContent = "Editar Produto"
-  console.log("Editando produto:", id)
-}
-
-function deleteProduct(id) {
-  if (confirm("Tem certeza que deseja excluir este produto?")) {
-    console.log("Excluindo produto:", id)
-    alert("Produto excluído com sucesso!")
-  }
+    productModal.classList.remove('active');
 }
 
 function previewImage(event) {
-  const file = event.target.files[0]
-  const preview = document.getElementById("imagePreview")
-
-  if (file) {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      preview.innerHTML = '<img src="' + e.target.result + '" alt="Preview">'
+    const preview = document.getElementById('imagePreview');
+    preview.innerHTML = '';
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Preview do Produto';
+            preview.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = '<span style="color: var(--text-light);">Nenhuma imagem selecionada</span>';
     }
-    reader.readAsDataURL(file)
-  }
 }
 
-const productForm = document.getElementById("productForm")
-if (productForm) {
-  productForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-    console.log("Salvando produto...")
-    alert("Produto salvo com sucesso!")
-    closeProductModal()
-  })
+// Funções de Ação (apenas log/confirmação)
+function editProduct(id) {
+    console.log('Editar produto: ' + id);
+    openProductModal(true);
+}
+
+function deleteProduct(id) {
+    if (confirm('Tem certeza que deseja excluir este produto?')) {
+        console.log('Excluir produto: ' + id);
+    }
 }
